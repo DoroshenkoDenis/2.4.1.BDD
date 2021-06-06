@@ -39,24 +39,11 @@ public class VerificationTest {
     public void SettingsTest() {
         loginPage
                 .validLogin(authInfo);
-                sleep(2000);
+                sleep(3000);
                 verificationPage.validVerify(verificationCode);
-        System.out.println("-------стартовый баланс----------");
-        System.out.println(dashboardPage.getBalance(cardLastDigits1));
-        System.out.println(dashboardPage.getBalance(cardLastDigits2));
-        System.out.println("-------------баланс после----переводов--------");
         dashboardPage
                 .goToTransferForm(cardLastDigits1);
-        sleep(2000);
                 transferForm.sentTransfer(transferAmount1, card2);
-        System.out.println(dashboardPage.getBalance(cardLastDigits1));
-        System.out.println(dashboardPage.getBalance(cardLastDigits2));
-        System.out.println("-------------Сброс---баланса------------------");
-        sleep(2000);
         dashboardPage.resetBalance(cardLastDigits1, card1, card2);
-        System.out.println(dashboardPage.getBalance(cardLastDigits1));
-        System.out.println(dashboardPage.getBalance(cardLastDigits2));
-        sleep(2000);
-        System.out.println("------------------------------------------");
     }
 }
