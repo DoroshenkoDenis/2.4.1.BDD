@@ -14,8 +14,8 @@ public class DashboardPage {
     ElementsCollection cards = $$(".list__item");
     SelenideElement depositButton = $("[data-test-id=action-deposit] .button__text");
 
-    public int getBalance(DataHelper.CardLastDigits replenishmentCard) {
-        String cardData = $(withText(replenishmentCard.getLastDigits())).toString();
+    public int getBalance(DataHelper.CardLastDigits digits) {
+        String cardData = $(withText(digits.getLastDigits())).toString();
         int start = cardData.indexOf("баланс: ");
         int finish = cardData.indexOf(" р.");
         String value = cardData.substring(start + "баланс: ".length(), finish).trim();
@@ -28,7 +28,7 @@ public class DashboardPage {
     }
 
     //       сброс баланса к начальному - сумма равными частями на картах
-    public void resetBalance(DataHelper.CardLastDigits cardLastDigits, DataHelper.CardNumber card1, DataHelper.CardNumber card2) {
+    public DashboardPage resetBalance(DataHelper.CardLastDigits cardLastDigits, DataHelper.CardNumber card1, DataHelper.CardNumber card2) {
         //       рассчёт общей суммы на всех картах
         int sumBalance = 0;
         for (SelenideElement card : cards) {
@@ -40,7 +40,7 @@ public class DashboardPage {
         }
         //      стартовый баланс - принимаем, что на картах одинаковые суммы
         int startBalance = sumBalance / cards.size();
-        //      для каждой карты: получаем последние 4 цифры номера, баланс и ...
+        //      для каждой карты: получаем последние 4 цифры номера, баланс
         for (SelenideElement card : cards) {
             int start1 = card.toString().indexOf("**** **** **** ");
             int finish1 = card.toString().indexOf(",");
@@ -52,7 +52,7 @@ public class DashboardPage {
             String balance = card.toString().substring(start + "баланс: ".length(), finish).trim();
             int cardBalance = Integer.parseInt(balance);
 
-            // ... проверяем условие - если текущий баланс на карте меньше  startBalance (равноразделённого),
+            //      проверяем условие - если текущий баланс на карте меньше  startBalance (равноразделённого),
             //      то пополняем эту карту
             if (cardBalance - startBalance < 0) {
                 card.$("button").click();
@@ -61,7 +61,7 @@ public class DashboardPage {
                 transferForm.clearField(transferForm.getAmountInputField());
                 transferForm.getAmountInputField().setValue(transferAmount);
                 transferForm.clearField(transferForm.getCardInputField());
-                //      выбираем карту
+                //      выбираем нужную для списания карту
                 if (!(Integer.parseInt(cardLastDigits.getLastDigits()) == cardDigits)) {
                     transferForm.getCardInputField().setValue(card1.getCardNumber());
                 }
@@ -69,6 +69,8 @@ public class DashboardPage {
                 transferForm.getTransferButton().click();
             }
         }
+        return new DashboardPage();
+
     }
 }
 

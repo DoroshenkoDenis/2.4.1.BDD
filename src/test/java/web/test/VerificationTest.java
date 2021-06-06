@@ -1,5 +1,6 @@
 package web.test;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import web.data.DataHelper;
@@ -9,6 +10,7 @@ import web.page.TransferForm;
 import web.page.VerificationPage;
 
 import static com.codeborne.selenide.Selenide.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VerificationTest {
     LoginPage loginPage = new LoginPage();
@@ -33,17 +35,36 @@ public class VerificationTest {
     @BeforeEach
     void setUp() {
         open("http://localhost:9999/");
+        loginPage
+                .validLogin(authInfo);
+        sleep(3000);
+        verificationPage.validVerify(verificationCode);
+    }
+
+    @AfterEach
+    void ResetCardBalance() {
+        dashboardPage
+                .resetBalance(cardLastDigits1, card1, card2);
+        assertEquals(dashboardPage.getBalance(cardLastDigits1), dashboardPage.getBalance(cardLastDigits2));
     }
 
     @Test
-    public void SettingsTest() {
-        loginPage
-                .validLogin(authInfo);
-                sleep(3000);
-                verificationPage.validVerify(verificationCode);
+    public void shouldTransfer() {
         dashboardPage
                 .goToTransferForm(cardLastDigits1);
-                transferForm.sentTransfer(transferAmount1, card2);
-        dashboardPage.resetBalance(cardLastDigits1, card1, card2);
+        transferForm.sentTransfer(transferAmount1, card2);
+
     }
+
+//    @Test
+//    public void SettingsTest() {
+//        loginPage
+//                .validLogin(authInfo);
+//        sleep(3000);
+//        verificationPage.validVerify(verificationCode);
+//        dashboardPage
+//                .goToTransferForm(cardLastDigits1);
+//        transferForm.sentTransfer(transferAmount1, card2);
+//        dashboardPage.resetBalance(cardLastDigits1, card1, card2);
+//    }
 }
