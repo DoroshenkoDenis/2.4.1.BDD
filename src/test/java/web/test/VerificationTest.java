@@ -78,17 +78,17 @@ public class VerificationTest {
     }
 
     //    Этот тест должен упасть, оформлено issue
-//    @Test
-//    @Order(4)
-//    public void shouldBeErrorIfExcessAmount() {
-//        loginPage
-//                .validLogin(authInfo)
-//                .verify(verificationCode);
-//        dashboardPage
-//                .goToTransferForm(cardLastDigits2)
-//                .sentTransfer(transferAmount2, card1);
-//        transferForm.getErrorNotification().shouldHave(text("Ошибка! Вы ввели сумму превышающую остаток средств на вашей карте. Пожалуйста, введите другую сумму!"));
-//    }
+    @Test
+    @Order(4)
+    public void shouldBeErrorIfExcessAmount() {
+        loginPage
+                .validLogin(authInfo)
+                .verify(verificationCode);
+        dashboardPage
+                .goToTransferForm(cardLastDigits2)
+                .sentTransfer(transferAmount2, card1);
+        transferForm.getErrorNotification().shouldHave(text("Ошибка! Вы ввели сумму превышающую остаток средств на вашей карте. Пожалуйста, введите другую сумму!"));
+    }
 
     //    Этот тест проверяет блокировку пользователя при многократном вводе неверного SMS кода, должен идти последним в списке, чтобы продолжить тестирование без перезапуска приложения
     @Test
