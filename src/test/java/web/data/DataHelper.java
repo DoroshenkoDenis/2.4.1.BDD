@@ -41,15 +41,15 @@ public class DataHelper {
         return new VerificationCode(code);
     }
 
-    public static VerificationCode getBadCode(int a) {
-        Random random = new Random();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < a; i++) {
-            stringBuilder.append(random.nextInt(9));
-        }
-        return new VerificationCode(stringBuilder.toString())
-                ;
-    }
+//    public static VerificationCode getBadCode(int a) {
+//        Random random = new Random();
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (int i = 0; i < a; i++) {
+//            stringBuilder.append(random.nextInt(9));
+//        }
+//        return new VerificationCode(stringBuilder.toString())
+//                ;
+//    }
 
     @Value
     public static class CardNumber {

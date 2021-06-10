@@ -15,6 +15,7 @@ public class TransferForm {
     private SelenideElement cardInputField = $("[data-test-id=from] input");
     private SelenideElement transferButton = $("[data-test-id=action-transfer]");
     private SelenideElement cancelButton = $("[data-test-id=action-cancel]");
+    private SelenideElement errorNotification = $("[data-test-id=error-notification] .notification__content");
 
     public DashboardPage transferCancel() {
         cancelButton.click();
